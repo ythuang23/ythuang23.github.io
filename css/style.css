@@ -1,3 +1,56 @@
+<div id="music-icon" style="position: fixed; top: 20px; right: 20px; font-size: 14px; z-index: 999; cursor: pointer;">
+  🎵▶️
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const icon = document.getElementById('music-icon');
+    const musicList = [
+      '/music/1.mp3',
+      '/music/2.mp3',
+      '/music/3.mp3',
+      '/music/4.mp3',
+      '/music/5.mp3',
+      '/music/6.mp3',
+      '/music/7.mp3',
+      '/music/8.mp3',
+      '/music/9.mp3',
+      '/music/10.mp3',
+      '/music/11.mp3',
+      '/music/12.mp3'
+    ];
+
+    const audioPlayer = new Audio();
+    let currentIndex = 0;
+
+    // 显示播放按钮（不自动加载）
+    icon.style.display = 'block';
+
+    icon.addEventListener('click', () => {
+      if (audioPlayer.paused || !audioPlayer.src) {
+        audioPlayer.src = musicList[currentIndex];
+        audioPlayer.play()
+          .then(() => icon.textContent = "🎵⏸️")
+          .catch(e => {
+            console.error("播放失败:", e);
+            icon.textContent = "🎵❌";
+          });
+      } else {
+        audioPlayer.pause();
+        icon.textContent = "🎵▶️";
+      }
+    });
+
+    audioPlayer.addEventListener('ended', () => {
+      currentIndex = (currentIndex + 1) % musicList.length;
+      audioPlayer.src = musicList[currentIndex];
+      audioPlayer.play();
+    });
+  });
+</script>
+
+
+
+
 body {
   width: 100%;
 }
